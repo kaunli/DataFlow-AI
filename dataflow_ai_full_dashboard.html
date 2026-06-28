@@ -1,0 +1,552 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;font-size:13px}
+#app{display:flex;flex-direction:column;width:100%;border-radius:12px;overflow:hidden;border:0.5px solid var(--border);background:var(--surface-0)}
+.feature-bar{background:#e6f1fb;border-bottom:0.5px solid #b5d4f4;padding:6px 16px;display:flex;align-items:center;gap:8px;font-size:11px;color:#0c447c;flex-shrink:0}
+.feature-bar i{font-size:13px}
+.ftag{background:#fff;border:0.5px solid #b5d4f4;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:500;color:#185fa5;cursor:pointer;transition:background .1s;white-space:nowrap}
+.ftag:hover{background:#dbeaf8}
+#body{display:flex;min-height:660px}
+#sidebar{width:192px;background:var(--surface-1);border-right:0.5px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:0.5px solid var(--border)}
+.lmark{width:26px;height:26px;border-radius:6px;background:#2a78d6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:500}
+.lname{font-weight:500;font-size:13px;color:var(--text-primary)}
+.lai{font-size:9px;background:#e6f1fb;color:#185fa5;border-radius:4px;padding:1px 5px;margin-left:2px}
+nav{padding:8px 6px;flex:1}
+.ns{font-size:10px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;padding:9px 8px 3px}
+.ni{display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:6px;color:var(--text-secondary);cursor:pointer;font-size:12px;margin-bottom:1px;transition:background .12s,color .12s;user-select:none}
+.ni:hover{background:var(--surface-2);color:var(--text-primary)}
+.ni.active{background:#e6f1fb;color:#185fa5}
+.ni i{font-size:14px}
+.nbadge{margin-left:auto;font-size:10px;background:#fcebeb;color:#a32d2d;border-radius:10px;padding:1px 6px}
+.sfooter{padding:10px 6px;border-top:0.5px solid var(--border)}
+.urow{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer}
+.urow:hover{background:var(--surface-2)}
+.av{width:26px;height:26px;border-radius:50%;background:#2a78d6;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:500;flex-shrink:0}
+#main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+#topbar{height:50px;background:var(--surface-1);border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 16px;flex-shrink:0}
+#tb-title{font-size:13px;font-weight:500;color:var(--text-primary);flex:1}
+.sbox{display:flex;align-items:center;gap:5px;background:var(--surface-0);border:0.5px solid var(--border);border-radius:6px;padding:5px 9px;width:155px}
+.sbox input{border:none;background:transparent;font-size:12px;color:var(--text-primary);outline:none;width:100%}
+.sbox i{font-size:13px;color:var(--text-muted)}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);transition:background .1s}
+.btn:hover{background:var(--surface-2);color:var(--text-primary)}
+.btn:active{transform:scale(.98)}
+.btnp{background:#2a78d6;color:#fff;border-color:#2a78d6}
+.btnp:hover{background:#185fa5;border-color:#185fa5;color:#fff}
+.nbell{padding:5px 7px;border-radius:6px;cursor:pointer;color:var(--text-muted);position:relative;border:none;background:transparent}
+.nbell:hover{background:var(--surface-2)}
+.ndot{width:6px;height:6px;border-radius:50%;background:#e34948;position:absolute;top:4px;right:4px}
+#content{flex:1;overflow-y:auto;padding:16px}
+.view{display:none}
+.view.active{display:block}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.pt{font-size:14px;font-weight:500;color:var(--text-primary)}
+.dbtn{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted);cursor:pointer;padding:4px 8px;border-radius:5px;border:0.5px solid var(--border);background:transparent}
+.dbtn:hover{background:var(--surface-2)}
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.kc{background:var(--surface-1);border:0.5px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:border-color .15s}
+.kc:hover{border-color:var(--border-strong)}
+.kc.sel{border-color:#2a78d6;background:#f4f8fe}
+.kl{font-size:10px;color:var(--text-muted);margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.kv{font-size:20px;font-weight:500;color:var(--text-primary);line-height:1;margin-bottom:4px}
+.kd{font-size:10px;display:flex;align-items:center;gap:2px}
+.up{color:#0ca30c}.dn{color:#e34948}
+.ks{margin-top:7px;height:26px;position:relative}
+.crow{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:14px}
+.card{background:var(--surface-1);border:0.5px solid var(--border);border-radius:10px;padding:14px}
+.ch{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.ct{font-size:12px;font-weight:500;color:var(--text-primary)}
+.cs{font-size:10px;color:var(--text-muted);margin-top:1px}
+.tabs{display:flex;gap:2px;background:var(--surface-0);border-radius:5px;padding:2px}
+.tab{font-size:11px;padding:3px 8px;border-radius:4px;cursor:pointer;color:var(--text-muted);border:none;background:transparent}
+.tab.active{background:var(--surface-2);color:var(--text-primary)}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.li{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-secondary)}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.cw{position:relative;width:100%}
+.brow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dt{width:100%;border-collapse:collapse;table-layout:fixed}
+.dt th{font-size:10px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;padding:5px 0;border-bottom:0.5px solid var(--border);text-align:left}
+.dt td{padding:7px 0;font-size:11px;color:var(--text-primary);border-bottom:0.5px solid var(--border);vertical-align:middle}
+.dt tr:last-child td{border-bottom:none}
+.dt tbody tr{cursor:pointer}
+.dt tbody tr:hover td{background:var(--surface-0)}
+.bdg{display:inline-flex;align-items:center;padding:2px 6px;border-radius:10px;font-size:10px;font-weight:500}
+.bl{background:#eaf3de;color:#3b6d11}
+.bw{background:#faeeda;color:#854f0b}
+.be{background:#fcebeb;color:#a32d2d}
+.bn{background:var(--surface-0);color:var(--text-muted)}
+.ii{display:flex;gap:9px;padding:9px 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background .1s;border-radius:4px}
+.ii:hover{background:var(--surface-0);padding-left:4px;padding-right:4px}
+.ii:last-child{border-bottom:none}
+.ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.ico.b{background:#e6f1fb;color:#185fa5}
+.ico.g{background:#eaf3de;color:#3b6d11}
+.ico.a{background:#faeeda;color:#854f0b}
+.ico.r{background:#fcebeb;color:#a32d2d}
+.it{font-size:11px;font-weight:500;color:var(--text-primary);margin-bottom:2px}
+.ib{font-size:10px;color:var(--text-muted);line-height:1.5}
+.pg{height:3px;background:var(--surface-0);border-radius:2px;margin-top:5px;overflow:hidden}
+.pf{height:100%;border-radius:2px}
+.toast{position:absolute;bottom:12px;right:12px;background:var(--surface-2);border:0.5px solid var(--border);border-radius:8px;padding:9px 13px;font-size:12px;color:var(--text-primary);display:flex;align-items:center;gap:7px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.toast.show{opacity:1}
+.toast i{color:#0ca30c;font-size:14px}
+.mover{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.32);z-index:20;align-items:center;justify-content:center;border-radius:12px}
+.mover.open{display:flex}
+.modal{background:var(--surface-2);border:0.5px solid var(--border);border-radius:10px;padding:20px;width:260px}
+.mtit{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:3px}
+.msub{font-size:11px;color:var(--text-muted);margin-bottom:16px}
+.mlbl{font-size:11px;color:var(--text-secondary);margin-bottom:4px;display:block}
+.minp{width:100%;padding:7px 10px;border-radius:6px;border:0.5px solid var(--border-strong);background:var(--surface-1);color:var(--text-primary);font-size:12px;outline:none;margin-bottom:10px}
+.minp:focus{border-color:#2a78d6}
+.mact{display:flex;gap:6px;justify-content:flex-end;margin-top:14px}
+#app{position:relative}
+.page-header{background:var(--surface-1);border-bottom:0.5px solid var(--border);padding:14px 16px;margin:-16px -16px 16px}
+.page-header .ph{margin-bottom:0}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
+.empty-state i{font-size:36px;margin-bottom:10px;display:block}
+.empty-state h3{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:6px}
+.empty-state p{font-size:12px;line-height:1.6}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat-card{background:var(--surface-1);border:0.5px solid var(--border);border-radius:10px;padding:14px}
+.stat-label{font-size:10px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.stat-val{font-size:22px;font-weight:500;color:var(--text-primary)}
+.stat-sub{font-size:11px;color:var(--text-muted);margin-top:3px}
+.trow2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.alert-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border);cursor:pointer}
+.alert-row:last-child{border-bottom:none}
+.alert-row:hover{background:var(--surface-0);border-radius:6px;padding-left:6px;padding-right:6px}
+.toggle{width:32px;height:18px;border-radius:9px;background:#e6f1fb;border:0.5px solid #b5d4f4;flex-shrink:0;position:relative;cursor:pointer;transition:background .2s}
+.toggle.on{background:#2a78d6;border-color:#2a78d6}
+.toggle-dot{width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:1px;left:1px;transition:left .2s}
+.toggle.on .toggle-dot{left:15px}
+.int-card{display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface-1);border:0.5px solid var(--border);border-radius:10px;margin-bottom:8px;cursor:pointer}
+.int-card:hover{border-color:var(--border-strong)}
+.int-icon{width:36px;height:36px;border-radius:8px;background:var(--surface-0);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.int-name{font-size:12px;font-weight:500;color:var(--text-primary)}
+.int-desc{font-size:11px;color:var(--text-muted)}
+.model-card{background:var(--surface-1);border:0.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px}
+.model-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.model-name{font-size:12px;font-weight:500;color:var(--text-primary)}
+.model-meta{font-size:11px;color:var(--text-muted);margin-bottom:8px}
+.meter{height:4px;background:var(--surface-0);border-radius:2px;overflow:hidden}
+.meter-fill{height:100%;border-radius:2px;background:#2a78d6}
+.cust-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border);cursor:pointer}
+.cust-row:hover td{background:var(--surface-0)}
+.cav{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#fff;flex-shrink:0}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:0.5px solid var(--border)}
+.srow:last-child{border-bottom:none}
+.slbl{font-size:12px;color:var(--text-primary)}
+.ssub{font-size:11px;color:var(--text-muted);margin-top:1px}
+</style>
+
+<div id="app">
+  <div class="feature-bar">
+    <i class="ti ti-sparkles" aria-hidden="true"></i>
+    <span style="font-weight:500">What DataFlow AI does:</span>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <span class="ftag" onclick="sendPrompt('Tell me about DataFlow AI real-time pipeline monitoring')">Real-time pipelines</span>
+      <span class="ftag" onclick="sendPrompt('How does DataFlow AI handle multi-model AI orchestration?')">Multi-model AI</span>
+      <span class="ftag" onclick="sendPrompt('What anomaly detection features does DataFlow AI offer?')">Anomaly detection</span>
+      <span class="ftag" onclick="sendPrompt('How does DataFlow AI compare to Segment or Census?')">vs. competitors</span>
+    </div>
+  </div>
+
+  <div id="body">
+    <div id="sidebar">
+      <div class="logo">
+        <div class="lmark">D</div>
+        <span class="lname">DataFlow<span class="lai">AI</span></span>
+      </div>
+      <nav>
+        <div class="ns">Overview</div>
+        <div class="ni active" data-view="dashboard"><i class="ti ti-layout-dashboard" aria-hidden="true"></i>Dashboard</div>
+        <div class="ni" data-view="analytics"><i class="ti ti-chart-line" aria-hidden="true"></i>Analytics</div>
+        <div class="ni" data-view="customers"><i class="ti ti-users" aria-hidden="true"></i>Customers<span class="nbadge">3</span></div>
+        <div class="ns">Product</div>
+        <div class="ni" data-view="flows"><i class="ti ti-database" aria-hidden="true"></i>Data flows</div>
+        <div class="ni" data-view="models"><i class="ti ti-cpu" aria-hidden="true"></i>AI models</div>
+        <div class="ni" data-view="integrations"><i class="ti ti-plug" aria-hidden="true"></i>Integrations</div>
+        <div class="ns">Settings</div>
+        <div class="ni" data-view="alerts"><i class="ti ti-bell" aria-hidden="true"></i>Alerts</div>
+        <div class="ni" data-view="settings"><i class="ti ti-settings" aria-hidden="true"></i>Settings</div>
+      </nav>
+      <div class="sfooter">
+        <div class="urow">
+          <div class="av">SR</div>
+          <div><div style="font-size:12px;font-weight:500;color:var(--text-primary)">Sarah R.</div><div style="font-size:10px;color:var(--text-muted)">Pro plan</div></div>
+          <i class="ti ti-dots" style="color:var(--text-muted);font-size:13px;margin-left:auto" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+
+    <div id="main">
+      <div id="topbar">
+        <span id="tb-title">Dashboard</span>
+        <div class="sbox"><i class="ti ti-search" aria-hidden="true"></i><input type="text" placeholder="Search…" aria-label="Search"></div>
+        <div style="display:flex;align-items:center;gap:5px">
+          <button class="btn" id="filter-btn"><i class="ti ti-adjustments-horizontal" aria-hidden="true"></i>Filter</button>
+          <button class="btn btnp" id="new-flow-btn"><i class="ti ti-plus" aria-hidden="true"></i>New flow</button>
+          <button class="nbell" id="nbell-btn" aria-label="Notifications"><i class="ti ti-bell" style="font-size:16px" aria-hidden="true"></i><div class="ndot" id="ndot"></div></button>
+          <div class="av" style="width:28px;height:28px;font-size:11px;cursor:pointer">SR</div>
+        </div>
+      </div>
+
+      <div id="content">
+
+        <div id="view-dashboard" class="view active">
+          <div class="ph">
+            <div class="pt">Analytics overview</div>
+            <button class="dbtn"><i class="ti ti-calendar" aria-hidden="true"></i><span id="date-lbl">Jun 1 – Jun 27, 2026</span><i class="ti ti-chevron-down" aria-hidden="true"></i></button>
+          </div>
+          <div class="krow">
+            <div class="kc sel" data-kpi="mrr"><div class="kl"><i class="ti ti-currency-dollar" style="font-size:11px" aria-hidden="true"></i>MRR</div><div class="kv">$84.2k</div><div class="kd up"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i>+12.4% vs last mo</div><div class="ks"><canvas id="s1" role="img" aria-label="MRR trend">Up</canvas></div></div>
+            <div class="kc" data-kpi="users"><div class="kl"><i class="ti ti-users" style="font-size:11px" aria-hidden="true"></i>Active users</div><div class="kv">3,847</div><div class="kd up"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i>+8.1% vs last mo</div><div class="ks"><canvas id="s2" role="img" aria-label="Users trend">Up</canvas></div></div>
+            <div class="kc" data-kpi="ai"><div class="kl"><i class="ti ti-cpu" style="font-size:11px" aria-hidden="true"></i>AI inferences</div><div class="kv">1.2M</div><div class="kd up"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i>+31.7% vs last mo</div><div class="ks"><canvas id="s3" role="img" aria-label="Inferences trend">Up</canvas></div></div>
+            <div class="kc" data-kpi="lat"><div class="kl"><i class="ti ti-clock" style="font-size:11px" aria-hidden="true"></i>Avg latency</div><div class="kv">142ms</div><div class="kd dn"><i class="ti ti-trending-down" style="font-size:11px" aria-hidden="true"></i>−18ms improved</div><div class="ks"><canvas id="s4" role="img" aria-label="Latency trend">Down</canvas></div></div>
+          </div>
+          <div class="crow">
+            <div class="card">
+              <div class="ch"><div><div class="ct">Revenue and usage</div><div class="cs">Monthly — last 6 months</div></div>
+              <div class="tabs"><button class="tab active" data-chart="rev">Revenue</button><button class="tab" data-chart="use">Usage</button><button class="tab" data-chart="churn">Churn</button></div></div>
+              <div class="leg" id="main-leg"><span class="li"><span class="ld" style="background:#2a78d6"></span>MRR</span><span class="li"><span class="ld" style="background:#1baf7a"></span>New ARR</span></div>
+              <div class="cw" style="height:165px"><canvas id="mc" role="img" aria-label="Revenue chart">Revenue data</canvas></div>
+            </div>
+            <div class="card">
+              <div class="ch"><div><div class="ct">Plan distribution</div><div class="cs">Active subscriptions</div></div></div>
+              <div class="leg"><span class="li"><span class="ld" style="background:#2a78d6"></span>Enterprise 42%</span><span class="li"><span class="ld" style="background:#1baf7a"></span>Pro 35%</span><span class="li"><span class="ld" style="background:#eda100"></span>Starter 23%</span></div>
+              <div class="cw" style="height:120px"><canvas id="dc" role="img" aria-label="Plan donut">Ent 42, Pro 35, Starter 23</canvas></div>
+              <div style="margin-top:10px">
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:3px"><span>Enterprise</span><span>42%</span></div><div class="pg"><div class="pf" style="width:42%;background:#2a78d6"></div></div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin:5px 0 3px"><span>Pro</span><span>35%</span></div><div class="pg"><div class="pf" style="width:35%;background:#1baf7a"></div></div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin:5px 0 3px"><span>Starter</span><span>23%</span></div><div class="pg"><div class="pf" style="width:23%;background:#eda100"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="brow">
+            <div class="card">
+              <div class="ch"><div class="ct">Recent pipelines</div><button class="btn" style="font-size:11px;padding:3px 8px" onclick="document.querySelector('[data-view=flows]').click()">View all</button></div>
+              <table class="dt" aria-label="Pipelines"><thead><tr><th style="width:42%">Flow</th><th style="width:22%">Model</th><th style="width:18%">Calls</th><th style="width:18%">Status</th></tr></thead>
+              <tbody>
+                <tr onclick="sendPrompt('Tell me about the Customer churn pipeline performance and optimization tips')"><td><div style="font-weight:500;font-size:11px">Customer churn</div><div style="font-size:10px;color:var(--text-muted)">2h ago</div></td><td style="color:var(--text-muted)">GPT-4o</td><td>48.2k</td><td><span class="bdg bl">Live</span></td></tr>
+                <tr onclick="sendPrompt('Tell me about the Lead scoring pipeline performance and optimization tips')"><td><div style="font-weight:500;font-size:11px">Lead scoring</div><div style="font-size:10px;color:var(--text-muted)">4h ago</div></td><td style="color:var(--text-muted)">Claude S</td><td>21.7k</td><td><span class="bdg bl">Live</span></td></tr>
+                <tr onclick="sendPrompt('Why is the Doc extraction pipeline paused and how do I resume it?')"><td><div style="font-weight:500;font-size:11px">Doc extraction</div><div style="font-size:10px;color:var(--text-muted)">1d ago</div></td><td style="color:var(--text-muted)">Gemini 2</td><td>9.4k</td><td><span class="bdg bw">Paused</span></td></tr>
+                <tr onclick="sendPrompt('Help me set up the Fraud detection pipeline in DataFlow AI')"><td><div style="font-weight:500;font-size:11px">Fraud detection</div><div style="font-size:10px;color:var(--text-muted)">Draft</div></td><td style="color:var(--text-muted)">—</td><td>—</td><td><span class="bdg bn">Draft</span></td></tr>
+                <tr onclick="sendPrompt('Debug the Sentiment analysis flow error at 02:14 UTC')"><td><div style="font-weight:500;font-size:11px">Sentiment analysis</div><div style="font-size:10px;color:var(--text-muted)">12h ago</div></td><td style="color:var(--text-muted)">Claude S</td><td>2.1k</td><td><span class="bdg be">Error</span></td></tr>
+              </tbody></table>
+            </div>
+            <div class="card">
+              <div class="ch"><div class="ct">AI insights</div><span style="font-size:10px;background:#e6f1fb;color:#185fa5;border-radius:10px;padding:2px 7px">3 new</span></div>
+              <div>
+                <div class="ii" onclick="sendPrompt('Tell me more about the DataFlow AI usage spike and recommended actions')"><div class="ico b"><i class="ti ti-sparkles" aria-hidden="true"></i></div><div><div class="it">Usage spike detected</div><div class="ib">Inference volume up 47% this week. Consider upgrading compute tier.</div></div></div>
+                <div class="ii" onclick="sendPrompt('How can I further improve my churn model accuracy in DataFlow AI?')"><div class="ico g"><i class="ti ti-trending-up" aria-hidden="true"></i></div><div><div class="it">Churn model improved</div><div class="ib">Accuracy hit 91.4% after Tuesday's retrain — best in 90 days.</div></div></div>
+                <div class="ii" onclick="sendPrompt('Debug the sentiment analysis error at 02:14 UTC — it looks like an API timeout')"><div class="ico a"><i class="ti ti-alert-triangle" aria-hidden="true"></i></div><div><div class="it">Anomaly in sentiment flow</div><div class="ib">Error rate 8.2% at 02:14 UTC. Last 3 runs failed.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="view-analytics" class="view">
+          <div class="ph"><div class="pt">Analytics</div><button class="dbtn"><i class="ti ti-calendar" aria-hidden="true"></i>Last 30 days<i class="ti ti-chevron-down" aria-hidden="true"></i></button></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Total API calls</div><div class="stat-val">4.8M</div><div class="stat-sub">+22% month over month</div></div>
+            <div class="stat-card"><div class="stat-label">Avg response time</div><div class="stat-val">142ms</div><div class="stat-sub">P99: 340ms</div></div>
+            <div class="stat-card"><div class="stat-label">Error rate</div><div class="stat-val">0.8%</div><div class="stat-sub">Target: below 1%</div></div>
+          </div>
+          <div class="card" style="margin-bottom:12px">
+            <div class="ch"><div><div class="ct">Daily inference volume</div><div class="cs">Past 30 days</div></div></div>
+            <div class="leg"><span class="li"><span class="ld" style="background:#2a78d6"></span>Inferences</span></div>
+            <div class="cw" style="height:160px"><canvas id="ac1" role="img" aria-label="Daily inference volume">Trending up</canvas></div>
+          </div>
+          <div class="trow2">
+            <div class="card">
+              <div class="ch"><div class="ct">Model usage breakdown</div></div>
+              <div class="leg"><span class="li"><span class="ld" style="background:#2a78d6"></span>Claude</span><span class="li"><span class="ld" style="background:#1baf7a"></span>GPT-4o</span><span class="li"><span class="ld" style="background:#eda100"></span>Gemini</span></div>
+              <div class="cw" style="height:140px"><canvas id="ac2" role="img" aria-label="Model usage pie">Claude 54%, GPT 30%, Gemini 16%</canvas></div>
+            </div>
+            <div class="card">
+              <div class="ch"><div class="ct">Latency percentiles</div></div>
+              <div class="cw" style="height:160px"><canvas id="ac3" role="img" aria-label="Latency percentiles bar chart">p50 98ms, p90 210ms, p99 340ms</canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="view-customers" class="view">
+          <div class="ph"><div class="pt">Customers</div><button class="btn btnp" onclick="showToast('Add customer — opens form')"><i class="ti ti-plus" aria-hidden="true"></i>Add customer</button></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Total accounts</div><div class="stat-val">214</div><div class="stat-sub">+3 this week</div></div>
+            <div class="stat-card"><div class="stat-label">Avg contract value</div><div class="stat-val">$18.4k</div><div class="stat-sub">ARR</div></div>
+            <div class="stat-card"><div class="stat-label">NPS score</div><div class="stat-val">72</div><div class="stat-sub">Based on 94 responses</div></div>
+          </div>
+          <div class="card">
+            <div class="ch"><div class="ct">All accounts</div><div class="sbox" style="width:140px"><i class="ti ti-search" aria-hidden="true"></i><input type="text" placeholder="Search accounts…" aria-label="Search accounts"></div></div>
+            <table class="dt" aria-label="Customers">
+              <thead><tr><th style="width:30%">Company</th><th style="width:18%">Plan</th><th style="width:18%">MRR</th><th style="width:18%">Flows</th><th style="width:16%">Health</th></tr></thead>
+              <tbody>
+                <tr onclick="sendPrompt('Tell me about Acme Corp customer account health and expansion opportunities')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="width:24px;height:24px;font-size:10px;background:#4a3aa7">AC</div><span style="font-size:11px;font-weight:500">Acme Corp</span></div></td><td><span class="bdg" style="background:#e6f1fb;color:#185fa5">Enterprise</span></td><td>$4,200</td><td>12</td><td><span class="bdg bl">Healthy</span></td></tr>
+                <tr onclick="sendPrompt('Tell me about Stripe Inc customer account health and usage patterns')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="width:24px;height:24px;font-size:10px;background:#1baf7a">SI</div><span style="font-size:11px;font-weight:500">Stripe Inc</span></div></td><td><span class="bdg" style="background:#e6f1fb;color:#185fa5">Enterprise</span></td><td>$6,800</td><td>24</td><td><span class="bdg bl">Healthy</span></td></tr>
+                <tr onclick="sendPrompt('Why is Notion at risk of churning and what actions should I take?')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="width:24px;height:24px;font-size:10px;background:#e34948">NO</div><span style="font-size:11px;font-weight:500">Notion</span></div></td><td><span class="bdg bn">Pro</span></td><td>$890</td><td>3</td><td><span class="bdg be">At risk</span></td></tr>
+                <tr onclick="sendPrompt('Tell me about Linear customer account usage and growth potential')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="width:24px;height:24px;font-size:10px;background:#eda100">LN</div><span style="font-size:11px;font-weight:500">Linear</span></div></td><td><span class="bdg bn">Pro</span></td><td>$1,200</td><td>7</td><td><span class="bdg bw">Reviewing</span></td></tr>
+                <tr onclick="sendPrompt('Tell me about Vercel customer account and upsell opportunities')"><td><div style="display:flex;align-items:center;gap:7px"><div class="av" style="width:24px;height:24px;font-size:10px;background:#0f6e56">VE</div><span style="font-size:11px;font-weight:500">Vercel</span></div></td><td><span class="bdg bn">Starter</span></td><td>$290</td><td>2</td><td><span class="bdg bl">Healthy</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="view-flows" class="view">
+          <div class="ph"><div class="pt">Data flows</div><button class="btn btnp" id="new-flow-btn2"><i class="ti ti-plus" aria-hidden="true"></i>New flow</button></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Active flows</div><div class="stat-val">18</div><div class="stat-sub">2 paused, 1 error</div></div>
+            <div class="stat-card"><div class="stat-label">Total calls today</div><div class="stat-val">248k</div><div class="stat-sub">Peak: 2PM UTC</div></div>
+            <div class="stat-card"><div class="stat-label">Avg success rate</div><div class="stat-val">99.2%</div><div class="stat-sub">Last 24h</div></div>
+          </div>
+          <div class="card">
+            <div class="ch"><div class="ct">All pipelines</div>
+              <div class="tabs"><button class="tab active">All</button><button class="tab">Live</button><button class="tab">Paused</button><button class="tab">Errors</button></div>
+            </div>
+            <table class="dt" aria-label="All flows">
+              <thead><tr><th style="width:32%">Name</th><th style="width:18%">Model</th><th style="width:14%">Calls/day</th><th style="width:14%">Success</th><th style="width:12%">Status</th><th style="width:10%"></th></tr></thead>
+              <tbody>
+                <tr onclick="sendPrompt('Show me detailed stats and optimization tips for the Customer churn pipeline')"><td><div style="font-weight:500;font-size:11px">Customer churn</div><div style="font-size:10px;color:var(--text-muted)">Updated 2h ago</div></td><td style="color:var(--text-muted)">GPT-4o</td><td>48.2k</td><td style="color:#3b6d11">99.8%</td><td><span class="bdg bl">Live</span></td><td><i class="ti ti-dots" style="color:var(--text-muted);cursor:pointer;font-size:14px" aria-hidden="true"></i></td></tr>
+                <tr onclick="sendPrompt('Show me detailed stats and optimization tips for the Lead scoring pipeline')"><td><div style="font-weight:500;font-size:11px">Lead scoring</div><div style="font-size:10px;color:var(--text-muted)">Updated 4h ago</div></td><td style="color:var(--text-muted)">Claude S</td><td>21.7k</td><td style="color:#3b6d11">99.5%</td><td><span class="bdg bl">Live</span></td><td><i class="ti ti-dots" style="color:var(--text-muted);cursor:pointer;font-size:14px" aria-hidden="true"></i></td></tr>
+                <tr onclick="sendPrompt('Why is Doc extraction paused and how do I safely resume it?')"><td><div style="font-weight:500;font-size:11px">Doc extraction</div><div style="font-size:10px;color:var(--text-muted)">Paused 1d ago</div></td><td style="color:var(--text-muted)">Gemini 2</td><td>0</td><td style="color:var(--text-muted)">—</td><td><span class="bdg bw">Paused</span></td><td><i class="ti ti-dots" style="color:var(--text-muted);cursor:pointer;font-size:14px" aria-hidden="true"></i></td></tr>
+                <tr onclick="sendPrompt('What should I configure to launch the Fraud detection pipeline?')"><td><div style="font-weight:500;font-size:11px">Fraud detection</div><div style="font-size:10px;color:var(--text-muted)">Draft mode</div></td><td style="color:var(--text-muted)">—</td><td>—</td><td style="color:var(--text-muted)">—</td><td><span class="bdg bn">Draft</span></td><td><i class="ti ti-dots" style="color:var(--text-muted);cursor:pointer;font-size:14px" aria-hidden="true"></i></td></tr>
+                <tr onclick="sendPrompt('Debug the Sentiment analysis API timeout errors starting at 02:14 UTC')"><td><div style="font-weight:500;font-size:11px">Sentiment analysis</div><div style="font-size:10px;color:var(--text-muted)">Error 12h ago</div></td><td style="color:var(--text-muted)">Claude S</td><td>2.1k</td><td style="color:#a32d2d">91.8%</td><td><span class="bdg be">Error</span></td><td><i class="ti ti-dots" style="color:var(--text-muted);cursor:pointer;font-size:14px" aria-hidden="true"></i></td></tr>
+                <tr onclick="sendPrompt('Show me stats for the Invoice parsing pipeline')"><td><div style="font-weight:500;font-size:11px">Invoice parsing</div><div style="font-size:10px;color:var(--text-muted)">Updated 6h ago</div></td><td style="color:var(--text-muted)">Claude S</td><td>8.9k</td><td style="color:#3b6d11">99.1%</td><td><span class="bdg bl">Live</span></td><td><i class="ti ti-dots" style="color:var(--text-muted);cursor:pointer;font-size:14px" aria-hidden="true"></i></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="view-models" class="view">
+          <div class="ph"><div class="pt">AI models</div><button class="btn btnp" onclick="sendPrompt('What AI models can I add to DataFlow AI and how do I configure them?')"><i class="ti ti-plus" aria-hidden="true"></i>Add model</button></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Connected models</div><div class="stat-val">6</div><div class="stat-sub">Across 3 providers</div></div>
+            <div class="stat-card"><div class="stat-label">Top model (calls)</div><div class="stat-val">Claude S</div><div class="stat-sub">54% of all traffic</div></div>
+            <div class="stat-card"><div class="stat-label">Avg cost per 1k calls</div><div class="stat-val">$0.48</div><div class="stat-sub">Blended rate</div></div>
+          </div>
+          <div class="model-card">
+            <div class="model-top"><div><div class="model-name">Claude Sonnet 4.6</div><div class="model-meta">Anthropic · 200k context · $3/M input tokens</div></div><span class="bdg bl">Active</span></div>
+            <div style="font-size:10px;color:var(--text-muted);margin-bottom:5px">Traffic share: 54%</div>
+            <div class="meter"><div class="meter-fill" style="width:54%"></div></div>
+          </div>
+          <div class="model-card">
+            <div class="model-top"><div><div class="model-name">GPT-4o</div><div class="model-meta">OpenAI · 128k context · $5/M input tokens</div></div><span class="bdg bl">Active</span></div>
+            <div style="font-size:10px;color:var(--text-muted);margin-bottom:5px">Traffic share: 30%</div>
+            <div class="meter"><div class="meter-fill" style="width:30%;background:#1baf7a"></div></div>
+          </div>
+          <div class="model-card">
+            <div class="model-top"><div><div class="model-name">Gemini 2.0 Flash</div><div class="model-meta">Google · 1M context · $0.075/M input tokens</div></div><span class="bdg bl">Active</span></div>
+            <div style="font-size:10px;color:var(--text-muted);margin-bottom:5px">Traffic share: 16%</div>
+            <div class="meter"><div class="meter-fill" style="width:16%;background:#eda100"></div></div>
+          </div>
+          <div class="model-card" style="opacity:.6">
+            <div class="model-top"><div><div class="model-name">Llama 3.3 70B</div><div class="model-meta">Meta · Self-hosted · Cost per token varies</div></div><span class="bdg bn">Inactive</span></div>
+            <div style="font-size:10px;color:var(--text-muted);margin-bottom:5px">Not yet deployed</div>
+            <div class="meter"><div class="meter-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div id="view-integrations" class="view">
+          <div class="ph"><div class="pt">Integrations</div><button class="btn" onclick="sendPrompt('What integrations are available in DataFlow AI?')">Browse catalog</button></div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px">Connect your data sources, warehouses, and business tools.</div>
+          <div style="font-size:12px;font-weight:500;color:var(--text-primary);margin-bottom:8px">Connected</div>
+          <div class="int-card" onclick="showToast('Snowflake — 3 active syncs')"><div class="int-icon"><i class="ti ti-database" style="color:#29b5e8" aria-hidden="true"></i></div><div style="flex:1"><div class="int-name">Snowflake</div><div class="int-desc">Data warehouse · 3 active syncs</div></div><span class="bdg bl">Connected</span></div>
+          <div class="int-card" onclick="showToast('Salesforce — syncing leads and contacts')"><div class="int-icon"><i class="ti ti-cloud" style="color:#0070d2" aria-hidden="true"></i></div><div style="flex:1"><div class="int-name">Salesforce</div><div class="int-desc">CRM · Leads and contacts</div></div><span class="bdg bl">Connected</span></div>
+          <div class="int-card" onclick="showToast('Slack — alert notifications enabled')"><div class="int-icon"><i class="ti ti-brand-slack" style="color:#4a154b" aria-hidden="true"></i></div><div style="flex:1"><div class="int-name">Slack</div><div class="int-desc">Notifications · #dataflow-alerts</div></div><span class="bdg bl">Connected</span></div>
+          <div style="font-size:12px;font-weight:500;color:var(--text-primary);margin:14px 0 8px">Available</div>
+          <div class="int-card" onclick="sendPrompt('How do I connect Segment to DataFlow AI?')"><div class="int-icon"><i class="ti ti-arrows-exchange" style="color:var(--text-muted)" aria-hidden="true"></i></div><div style="flex:1"><div class="int-name">Segment</div><div class="int-desc">Customer data platform</div></div><button class="btn" style="font-size:11px;padding:3px 10px">Connect</button></div>
+          <div class="int-card" onclick="sendPrompt('How do I connect BigQuery to DataFlow AI?')"><div class="int-icon"><i class="ti ti-database" style="color:var(--text-muted)" aria-hidden="true"></i></div><div style="flex:1"><div class="int-name">BigQuery</div><div class="int-desc">Google data warehouse</div></div><button class="btn" style="font-size:11px;padding:3px 10px">Connect</button></div>
+          <div class="int-card" onclick="sendPrompt('How do I connect HubSpot to DataFlow AI?')"><div class="int-icon"><i class="ti ti-mail" style="color:var(--text-muted)" aria-hidden="true"></i></div><div style="flex:1"><div class="int-name">HubSpot</div><div class="int-desc">Marketing and CRM</div></div><button class="btn" style="font-size:11px;padding:3px 10px">Connect</button></div>
+        </div>
+
+        <div id="view-alerts" class="view">
+          <div class="ph"><div class="pt">Alert rules</div><button class="btn btnp" onclick="showToast('New alert rule — opens config')"><i class="ti ti-plus" aria-hidden="true"></i>New rule</button></div>
+          <div class="card" style="margin-bottom:12px">
+            <div class="ch"><div class="ct">Active rules</div><div class="cs">Triggers send to Slack #dataflow-alerts</div></div>
+            <div>
+              <div class="alert-row" onclick="showToast('Editing: Error rate threshold')">
+                <div class="ico r"><i class="ti ti-alert-circle" aria-hidden="true"></i></div>
+                <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--text-primary)">Error rate above 2%</div><div style="font-size:11px;color:var(--text-muted)">Any flow — triggers immediately</div></div>
+                <div class="toggle on" onclick="event.stopPropagation();this.classList.toggle('on');showToast('Alert toggled')"><div class="toggle-dot"></div></div>
+              </div>
+              <div class="alert-row" onclick="showToast('Editing: Latency threshold')">
+                <div class="ico a"><i class="ti ti-clock" aria-hidden="true"></i></div>
+                <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--text-primary)">Latency above 500ms</div><div style="font-size:11px;color:var(--text-muted)">P99 — 5 min sustained</div></div>
+                <div class="toggle on" onclick="event.stopPropagation();this.classList.toggle('on');showToast('Alert toggled')"><div class="toggle-dot"></div></div>
+              </div>
+              <div class="alert-row" onclick="showToast('Editing: MRR drop rule')">
+                <div class="ico b"><i class="ti ti-currency-dollar" aria-hidden="true"></i></div>
+                <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--text-primary)">MRR drops more than 5%</div><div style="font-size:11px;color:var(--text-muted)">Week over week — daily digest</div></div>
+                <div class="toggle on" onclick="event.stopPropagation();this.classList.toggle('on');showToast('Alert toggled')"><div class="toggle-dot"></div></div>
+              </div>
+              <div class="alert-row" onclick="showToast('Editing: Usage spike rule')">
+                <div class="ico g"><i class="ti ti-trending-up" aria-hidden="true"></i></div>
+                <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--text-primary)">Usage spike above 50%</div><div style="font-size:11px;color:var(--text-muted)">Hour over hour — immediate</div></div>
+                <div class="toggle" onclick="event.stopPropagation();this.classList.toggle('on');showToast('Alert toggled')"><div class="toggle-dot"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><div class="ct">Recent alerts</div></div>
+            <div>
+              <div class="ii" onclick="sendPrompt('Tell me more about the sentiment flow error that triggered at 02:14 UTC')"><div class="ico r"><i class="ti ti-alert-circle" aria-hidden="true"></i></div><div><div class="it">Sentiment flow error rate hit 8.2%</div><div class="ib">02:14 UTC · Jun 27 · Resolved in 18 min</div></div></div>
+              <div class="ii"><div class="ico a"><i class="ti ti-clock" aria-hidden="true"></i></div><div><div class="it">Latency spike on lead scoring</div><div class="ib">18:40 UTC · Jun 25 · Auto-resolved</div></div></div>
+              <div class="ii"><div class="ico g"><i class="ti ti-trending-up" aria-hidden="true"></i></div><div><div class="it">Usage 47% above weekly average</div><div class="ib">09:00 UTC · Jun 24 · Informational</div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="view-settings" class="view">
+          <div class="ph"><div class="pt">Settings</div><button class="btn btnp" onclick="showToast('Changes saved')"><i class="ti ti-check" aria-hidden="true"></i>Save changes</button></div>
+          <div class="trow2" style="margin-bottom:10px">
+            <div class="card">
+              <div class="ct" style="margin-bottom:12px">Workspace</div>
+              <div class="srow"><div><div class="slbl">Workspace name</div><div class="ssub">Shown in billing and exports</div></div><input class="minp" value="DataFlow AI" style="width:120px;margin:0"></div>
+              <div class="srow"><div><div class="slbl">Default timezone</div></div><select class="minp" style="width:130px;margin:0;cursor:pointer"><option>UTC</option><option>US/Eastern</option><option>US/Pacific</option></select></div>
+              <div class="srow"><div><div class="slbl">Data retention</div><div class="ssub">Logs and events</div></div><select class="minp" style="width:100px;margin:0;cursor:pointer"><option>90 days</option><option>180 days</option><option>1 year</option></select></div>
+            </div>
+            <div class="card">
+              <div class="ct" style="margin-bottom:12px">Plan and billing</div>
+              <div class="srow"><div><div class="slbl">Current plan</div></div><span class="bdg" style="background:#e6f1fb;color:#185fa5;font-size:11px">Pro</span></div>
+              <div class="srow"><div><div class="slbl">Monthly spend</div><div class="ssub">Flows and inference</div></div><span style="font-size:12px;font-weight:500;color:var(--text-primary)">$840 / mo</span></div>
+              <div class="srow"><div><div class="slbl">Next invoice</div></div><span style="font-size:12px;color:var(--text-muted)">Jul 1, 2026</span></div>
+              <button class="btn btnp" style="margin-top:10px;width:100%;justify-content:center" onclick="sendPrompt('What does DataFlow AI Enterprise plan include and how much does it cost?')">Upgrade to Enterprise</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ct" style="margin-bottom:12px">Notification preferences</div>
+            <div class="srow"><div><div class="slbl">Email digest</div><div class="ssub">Weekly summary of flows and metrics</div></div><div class="toggle on" onclick="this.classList.toggle('on');showToast('Preference updated')"><div class="toggle-dot"></div></div></div>
+            <div class="srow"><div><div class="slbl">Slack alerts</div><div class="ssub">Real-time error and spike notifications</div></div><div class="toggle on" onclick="this.classList.toggle('on');showToast('Preference updated')"><div class="toggle-dot"></div></div></div>
+            <div class="srow"><div><div class="slbl">AI insight notifications</div><div class="ssub">Weekly model performance insights</div></div><div class="toggle" onclick="this.classList.toggle('on');showToast('Preference updated')"><div class="toggle-dot"></div></div></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="toast" id="toast"><i class="ti ti-check" aria-hidden="true"></i><span id="toast-msg">Done</span></div>
+    </div>
+  </div>
+
+  <div id="mover" class="mover">
+    <div class="modal">
+      <div class="mtit">Create new flow</div>
+      <div class="msub">Set up a new AI data pipeline</div>
+      <label class="mlbl">Flow name</label>
+      <input class="minp" type="text" placeholder="e.g. Lead scoring v2" id="flow-name">
+      <label class="mlbl">AI model</label>
+      <select class="minp" style="cursor:pointer"><option>Claude Sonnet 4.6</option><option>GPT-4o</option><option>Gemini 2.0 Flash</option><option>Llama 3.3</option></select>
+      <label class="mlbl">Trigger</label>
+      <select class="minp" style="cursor:pointer"><option>Scheduled — hourly</option><option>Webhook on event</option><option>Manual only</option></select>
+      <div class="mact">
+        <button class="btn" id="mcancel">Cancel</button>
+        <button class="btn btnp" id="mcreate">Create flow</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+const gc = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+const tc = '#898781';
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function spark(id, data, color) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  new Chart(c, { type:'line', data:{labels:data.map((_,i)=>i),datasets:[{data,borderColor:color,borderWidth:1.5,pointRadius:0,fill:true,backgroundColor:color+'22',tension:0.4}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}} });
+}
+spark('s1',[48,52,55,58,61,64,68,72,76,81,84],'#2a78d6');
+spark('s2',[2800,2950,3050,3100,3200,3300,3400,3500,3620,3720,3847],'#1baf7a');
+spark('s3',[600,650,680,720,780,850,920,1010,1080,1150,1200],'#4a3aa7');
+spark('s4',[195,188,182,175,170,165,162,158,155,148,142],'#e34948');
+
+const chartDefs = {
+  rev:{ds:[{label:'MRR',data:[52000,57000,61000,68000,76000,84200],backgroundColor:'#2a78d6',borderRadius:4,borderSkipped:false},{label:'New ARR',data:[18000,22000,19000,28000,31000,35000],backgroundColor:'#1baf7a',borderRadius:4,borderSkipped:false}],leg:[['#2a78d6','MRR'],['#1baf7a','New ARR']],fmt:v=>'$'+Math.round(v/1000)+'k'},
+  use:{ds:[{label:'Inferences (k)',data:[600,650,720,850,1050,1200],backgroundColor:'#4a3aa7',borderRadius:4,borderSkipped:false}],leg:[['#4a3aa7','Inferences (k)']],fmt:v=>v+'k'},
+  churn:{ds:[{label:'Churned %',data:[14,12,11,9,8,6],backgroundColor:'#e34948',borderRadius:4,borderSkipped:false},{label:'Retained %',data:[86,88,89,91,92,94],backgroundColor:'#1baf7a',borderRadius:4,borderSkipped:false}],leg:[['#e34948','Churned %'],['#1baf7a','Retained %']],fmt:v=>v+'%'}
+};
+let mcInst = null;
+function buildMc(type) {
+  const ctx = document.getElementById('mc');
+  if (!ctx) return;
+  if (mcInst) mcInst.destroy();
+  const d = chartDefs[type];
+  document.getElementById('main-leg').innerHTML = d.leg.map(([c,l])=>`<span class="li"><span class="ld" style="background:${c}"></span>${l}</span>`).join('');
+  mcInst = new Chart(ctx,{type:'bar',data:{labels:['Jan','Feb','Mar','Apr','May','Jun'],datasets:d.ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+d.fmt(Math.round(c.raw))}}},scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:10}},border:{color:gc}},y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:d.fmt},border:{display:false}}}}});
+}
+buildMc('rev');
+
+new Chart(document.getElementById('dc'),{type:'doughnut',data:{labels:['Enterprise','Pro','Starter'],datasets:[{data:[42,35,23],backgroundColor:['#2a78d6','#1baf7a','#eda100'],borderWidth:2,borderColor:isDark?'#1a1a19':'#fcfcfb'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+c.raw+'%'}}}}});
+
+function buildAc1() {
+  const c = document.getElementById('ac1');
+  if (!c) return;
+  const labels = Array.from({length:30},(_,i)=>{const d=new Date(2026,4,28+i);return (d.getMonth()+1)+'/'+d.getDate()});
+  const data = Array.from({length:30},(_,i)=>Math.round(80+i*4+Math.random()*20));
+  new Chart(c,{type:'line',data:{labels,datasets:[{data,borderColor:'#2a78d6',borderWidth:2,pointRadius:0,fill:true,backgroundColor:'rgba(42,120,214,0.1)',tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:9},maxTicksLimit:6}},y:{grid:{color:gc},ticks:{color:tc,font:{size:9},callback:v=>v+'k'},border:{display:false}}}}});
+}
+function buildAc2() {
+  const c = document.getElementById('ac2');
+  if (!c) return;
+  new Chart(c,{type:'doughnut',data:{labels:['Claude','GPT-4o','Gemini'],datasets:[{data:[54,30,16],backgroundColor:['#2a78d6','#1baf7a','#eda100'],borderWidth:2,borderColor:isDark?'#1a1a19':'#fcfcfb'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+c.raw+'%'}}}}});
+}
+function buildAc3() {
+  const c = document.getElementById('ac3');
+  if (!c) return;
+  new Chart(c,{type:'bar',data:{labels:['p50','p75','p90','p95','p99'],datasets:[{data:[98,145,210,270,340],backgroundColor:['#2a78d6','#2a78d6','#eda100','#eda100','#e34948'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.raw+'ms'}}},scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:10}}},y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'ms'},border:{display:false}}}}});
+}
+
+document.querySelectorAll('.tab[data-chart]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.tab[data-chart]').forEach(t=>t.classList.remove('active'));
+    b.classList.add('active');
+    buildMc(b.dataset.chart);
+  });
+});
+
+const views = { dashboard:'Dashboard', analytics:'Analytics', customers:'Customers', flows:'Data flows', models:'AI models', integrations:'Integrations', alerts:'Alerts', settings:'Settings' };
+let analyticsBuilt = false;
+document.querySelectorAll('.ni[data-view]').forEach(item=>{
+  item.addEventListener('click',()=>{
+    document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+    item.classList.add('active');
+    const v = item.dataset.view;
+    document.getElementById('tb-title').textContent = views[v];
+    document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+    document.getElementById('view-'+v).classList.add('active');
+    if (v==='analytics' && !analyticsBuilt) { analyticsBuilt=true; setTimeout(()=>{buildAc1();buildAc2();buildAc3();},50); }
+  });
+});
+
+document.querySelectorAll('.kc').forEach(c=>{
+  c.addEventListener('click',()=>{ document.querySelectorAll('.kc').forEach(k=>k.classList.remove('sel')); c.classList.add('sel'); });
+});
+
+const openModal = () => document.getElementById('mover').classList.add('open');
+const closeModal = () => document.getElementById('mover').classList.remove('open');
+document.getElementById('new-flow-btn').addEventListener('click', openModal);
+document.getElementById('new-flow-btn2') && document.getElementById('new-flow-btn2').addEventListener('click', openModal);
+document.getElementById('mcancel').addEventListener('click', closeModal);
+document.getElementById('mover').addEventListener('click', e=>{ if(e.target===document.getElementById('mover')) closeModal(); });
+document.getElementById('mcreate').addEventListener('click',()=>{ const n=document.getElementById('flow-name').value.trim()||'New flow'; closeModal(); showToast('"'+n+'" created'); });
+
+document.getElementById('nbell-btn').addEventListener('click',()=>{ document.getElementById('ndot').style.display='none'; showToast('3 alerts marked as read'); });
+document.getElementById('filter-btn').addEventListener('click',()=>showToast('Filter panel'));
+document.querySelector('.dbtn').addEventListener('click',()=>{
+  const opts=['Jun 1 – Jun 27, 2026','May 2026','Q2 2026','Last 90 days'];
+  const lbl=document.getElementById('date-lbl');
+  lbl.textContent=opts[(opts.indexOf(lbl.textContent)+1)%opts.length];
+  showToast('Date range updated');
+});
+</script>
